@@ -36,7 +36,7 @@ char* getCurrentTime(void) {
     timeinfo = localtime(&rawtime);
 
     // Must be static, otherwise won't work
-    static char _retval[12];
+    static char _retval[20]; //4 +1 +2 +1 +2 +1 +2 +1 +2 +1 +2 +1("\0") = 20
     strftime(_retval, sizeof(_retval), "%Y.%m.%d %H:%M:%S", timeinfo);
 
     return _retval;
@@ -55,7 +55,7 @@ char* getShortTime(void) {
     timeinfo = localtime(&rawtime);
 
     // Must be static, otherwise won't work
-    static char _retval[8];
+    static char _retval[16]; //4 +2 +2 +1 +2 +2 +2 +1("\0") = 16
     strftime(_retval, sizeof(_retval), "%Y%m%d_%H%M%S", timeinfo);
 
     return _retval;
