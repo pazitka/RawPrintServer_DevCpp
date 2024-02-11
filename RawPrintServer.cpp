@@ -167,7 +167,7 @@ int WriteToLog(const char *str, bool showTime)
  * @param service
  * @returns nothing
  */
-VOID CreatePrintServer(char *strMyPath, char *strPrinter, DWORD port, int service)
+void CreatePrintServer(char *strMyPath, char *strPrinter, DWORD port, int service)
 {
 	//Declare
 	char strTemp[1024];
@@ -287,11 +287,13 @@ VOID CreatePrintServer(char *strMyPath, char *strPrinter, DWORD port, int servic
 }
 
 /**
- *
+ * Deletes Print Server Service
+ * @param port number of port used by service
  */
-VOID DeletePrintServerService(DWORD port)
+void DeletePrintServerService(DWORD port)
 {
 	//Declare
+	char strTemp[256];
 	SC_HANDLE schSCManager;
 	SC_HANDLE schService;
 	SERVICE_STATUS ss;
@@ -300,7 +302,9 @@ VOID DeletePrintServerService(DWORD port)
 	
 	if (!schSCManager)
 	{
-		printf("Error: ServiceManager %d\n", GetLastError());
+		sprintf(strTemp,"Error: ServiceManager %d\n", GetLastError());
+		WriteToLog(strTemp,true);
+		//printf("Error: ServiceManager %d\n", GetLastError());
 		return;
   	}
 
@@ -310,13 +314,17 @@ VOID DeletePrintServerService(DWORD port)
 
 	if (schService == NULL)
 	{
-		printf("Error: OpenService (%s) %d\n", strServiceName, GetLastError());
+		sprintf(strTemp,"Error: OpenService (%s) %d\n", strServiceName, GetLastError());
+		WriteToLog(strTemp,true);
+		//printf("Error: OpenService (%s) %d\n", strServiceName, GetLastError());
 		return;
 	}
 
 	if (ControlService(schService, SERVICE_CONTROL_STOP, &ss))
 	{
-		printf("Server stopped.\n");
+		sprintf(strTemp,"Server stopped.\n");
+		WriteToLog(strTemp,true);
+		//printf("Server stopped.\n");
 	}
 	else
 	{
@@ -326,19 +334,25 @@ VOID DeletePrintServerService(DWORD port)
 		err = GetLastError();
 		if (err != ERROR_SERVICE_NOT_ACTIVE)
 		{
-			printf("Error stopping Service: %d, please do it by hand.\n", err);
+			sprintf(strTemp,"Error stopping Service: %d, please do it by hand.\n", err);
+			WriteToLog(strTemp,true);
+			//printf("Error stopping Service: %d, please do it by hand.\n", err);
 			return;
 	    }
 	}
 
 	if (!DeleteService(schService))
 	{
-	    printf("Error: DeleteService %d\n", GetLastError());
+		sprintf(strTemp,"Error: DeleteService %d\n", GetLastError());
+		WriteToLog(strTemp,true);
+	    //printf("Error: DeleteService %d\n", GetLastError());
 	    return;
 	}
 	else
 	{
-	  	printf("DeleteService SUCCESS\n");
+		sprintf(strTemp,"DeleteService SUCCESS\n");
+		WriteToLog(strTemp,true);
+	  	//printf("DeleteService SUCCESS\n");
 	}
 	
 	CloseServiceHandle(schService);
@@ -356,6 +370,7 @@ int main(int argc, char **argv)
 	int command;
 
 	sprintf(fname, "RawPrintServer_%s.txt", getShortTime());
+	remove(fname);
 	//remove(LOGFILE);
 
 	//  WriteToLog("RawPrintServer 1.00 created by Henk Jonas (www.metaviewsoft.de)");
@@ -415,6 +430,8 @@ int main(int argc, char **argv)
 	    	}
 	      	p++;
 	    }
+	
+		printf("-------------------------------------------------------\n\n");
 	
 	    fprintf(stderr, "%s INSTALL \"Printer Name\" [port]\n"
 	                    "%s REMOVE [port]\n"
@@ -480,7 +497,9 @@ int main(int argc, char **argv)
 }
 
 /**
- *
+ * Inner Loop code
+ * @param port
+ * @param service id of service
  */
 int InnerLoop(DWORD port, int service)
 {
@@ -609,7 +628,9 @@ int InnerLoop(DWORD port, int service)
 }
 
 /**
- *
+ * Main Service code
+ * @param argc
+ * @param argv
  */
 void ServiceMain(int argc, char **argv)
 {
@@ -693,6 +714,7 @@ int InitService()
 
 /**
  * Control handler function
+ * @param request
  */
 void ControlHandler(DWORD request)
 {
