@@ -1,0 +1,6 @@
+This folder contains lib files that are necessary to compile the project.
+
+Main file is WinSpool.lib and it is crucial to make compilation works.
+It can be taken from Git:
+winsdk-7/v7.1A/Lib/WinSpool.Lib
+or just from here.
