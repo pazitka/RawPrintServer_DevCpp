@@ -1,3 +1,10 @@
+ _____                                                                                  _____ 
+( ___ )--------------------------------------------------------------------------------( ___ )
+ |   |      RawPrintServer 1.00 created by Henk Jonas (www.metaviewsoft.de)             |   | 
+ |   |                                                                                  |   | 
+ |___|      This is 32bit app! Version compiled in Dev-C++                              |___| 
+(_____)--------------------------------------------------------------------------------(_____)
+
 Introduction:
 -------------
 
@@ -6,6 +13,10 @@ Windows and for Linux / Unix / OS X.  For Windows, the software
 is RawPrintServer.exe.  For Linux / Unix / OS X, the software
 is the tiny RawPrintServer.sh script.
 
+About this release:
+-------------------
+I did compile RawPrintServer long time ago with DevC++ but it was not easy task and it took me a lot of time to understand why it is not working.
+After inventing wheel again I decided to create fork of other project made 7 years in the past (it is year 2024). I hope it will be usefull for you.
 
 
 Windows Installation:
