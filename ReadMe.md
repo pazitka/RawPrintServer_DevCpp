@@ -37,3 +37,13 @@ If you are not using Windows XP in some virtual machine or old PC than you shoul
 You will need to modifie `MakefileCustom.win` in there there is fixed path to G++, linkers and libraries and that need to be changed.
 After making changes please make sure that flag `-lws2_32` is set inside project. This way you will have less problems with compilation.
 I have added `WinSpool.h` and `WinSpool.lib` to the project to make sure that compilation will work. Normaly G++ have some problems with working with printers.
+
+# Original project author
+     _____                                                                                  _____ 
+    ( ___ )--------------------------------------------------------------------------------( ___ )
+     |   |      RawPrintServer 1.00 created by Henk Jonas (www.metaviewsoft.de)             |   | 
+     |   |                                                                                  |   | 
+     |___|      This is 32bit app! Version compiled in Dev-C++                              |___| 
+    (_____)--------------------------------------------------------------------------------(_____)
+Plase make sure that you read readme.txt as well.
+
